@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAMPARINA Bot Hosting Net</title>
+    <link href="/styles.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Fallback for dev -->
+</head>
+<body class="min-h-screen bg-gradient-to-br from-vamp-dark via-black to-vamp-purple flex items-center justify-center p-4">
+    <div class="vamp-card max-w-md w-full">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-vamp-purple mb-2">🧛‍♀️ VAMPARINA</h1>
+            <p class="text-xl opacity-90">Bot Hosting Net</p>
+            <p class="text-sm opacity-70 mt-4">Deploy your WhatsApp bot in seconds. 24/7 Uptime Guaranteed.</p>
+        </div>
+
+        <div class="space-y-6">
+            <!-- Repo Link -->
+            <a href="https://github.com/arnold6001/VAMPARINA-V1" target="_blank" class="block vamp-card p-4 text-center">
+                <p class="font-semibold">🔗 Fork Repo</p>
+                <p class="text-sm opacity-80">https://github.com/arnold6001/VAMPARINA-V1</p>
+            </a>
+
+            <!-- Get Session Button -->
+            <a href="http://arnoldchirchir.onrender.com" target="_blank" class="block w-full bg-vamp-purple hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg text-center transition duration-300">
+                📱 Get Session ID
+            </a>
+
+            <!-- Upload Form -->
+            <form id="uploadForm" enctype="multipart/form-data" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Upload creds.js (for Baileys Auth)</label>
+                    <input type="file" name="creds" accept=".js" required class="w-full p-3 bg-gray-800 border border-vamp-purple rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-vamp-purple file:text-white hover:file:bg-purple-700">
+                </div>
+                <button type="submit" class="w-full bg-vamp-purple hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                    🚀 Deploy Bot
+                </button>
+            </form>
+
+            <!-- Success Message (Hidden Initially) -->
+            <div id="successMsg" class="hidden vamp-card bg-green-900/50 border-green-500 p-4 text-center">
+                <p class="font-semibold">✅ Bot Deployed!</p>
+                <p class="text-sm opacity-80">Your VAMPARINA bot is now live 24/7. Run `node index.js` in your forked repo with uploaded creds.</p>
+            </div>
+
+            <!-- Owner Info -->
+            <div class="vamp-card p-4 text-center text-sm opacity-70">
+                <p><strong>Owner:</strong> Arnold Chirchir</p>
+                <p><strong>Email:</strong> arnoldkipruto193@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            try {
+                const res = await fetch('/upload', { method: 'POST', body: formData });
+                if (res.ok) {
+                    document.getElementById('successMsg').classList.remove('hidden');
+                } else {
+                    alert('Upload failed. Try again.');
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        });
+    </script>
+</body>
+</html>
