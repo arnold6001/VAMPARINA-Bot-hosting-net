@@ -38,9 +38,5 @@
       "schedule": "0 0 * * *"  // Run daily at midnight for auto-updates
     }
   ],
-  "env": {
-    "DATABASE_URL": "@database_url",
-    "JWT_SECRET": "@jwt_secret"
-  },
   "outputDirectory": ".next"
 }
