@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-vamp-bg text-white dark;
+}
+
+.vamp-card {
+  @apply bg-vamp-dark border border-vamp-purple rounded-lg p-6 shadow-lg;
+}
