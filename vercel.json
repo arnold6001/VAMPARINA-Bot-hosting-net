@@ -2,18 +2,26 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.js",
+      "src": "src/app/**/route.ts",
       "use": "@vercel/node"
     },
     {
-      "src": "public/**",
-      "use": "@vercel/static"
+      "src": "src/app/**/*.{js,ts,jsx,tsx}",
+      "use": "@vercel/next"
     }
   ],
-  "routes": [
+  "crons": [
     {
-      "src": "/(.*)",
-      "dest": "index.js"
+      "path": "/api/bump-groups",
+      "schedule": "0 * * * *"  // Hourly bumps
+    },
+    {
+      "path": "/api/protect-groups",
+      "schedule": "*/5 * * * *"  // Every 5 min for anti-spam
+    },
+    {
+      "path": "/api/update-all",
+      "schedule": "0 0 * * *"  // Daily auto-updates
     }
   ]
 }
