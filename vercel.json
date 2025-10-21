@@ -8,20 +8,39 @@
     {
       "src": "src/app/**/*.{js,ts,jsx,tsx}",
       "use": "@vercel/next"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/"
     }
   ],
   "crons": [
     {
       "path": "/api/bump-groups",
-      "schedule": "0 * * * *"  // Hourly bumps
+      "schedule": "0 * * * *"  // Run every hour for group bumps
     },
     {
-      "path": "/api/protect-groups",
-      "schedule": "*/5 * * * *"  // Every 5 min for anti-spam
+      "path": "/api/protect-group",
+      "schedule": "*/5 * * * *"  // Run every 5 minutes for anti-spam/protection
     },
     {
       "path": "/api/update-all",
-      "schedule": "0 0 * * *"  // Daily auto-updates
+      "schedule": "0 0 * * *"  // Run daily at midnight for auto-updates
     }
-  ]
+  ],
+  "env": {
+    "DATABASE_URL": "@database_url",
+    "JWT_SECRET": "@jwt_secret"
+  },
+  "outputDirectory": ".next"
 }
