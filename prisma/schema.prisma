@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  referrals   Int      @default(0)
+  bots        Bot[]
+  groups      Group[]
+  role        String   @default("user")  // e.g., "vip" for >100 referrals
+}
+
+model Bot {
+  id            String   @id @default(cuid())
+  userId        String
+  sessionFile   String
+  status        String   @default("active")  // Permanent: never expires
+  logs          String[] @default([])
+  latency       Float    @default(20.0)  // Simulated low latency
+  user          User     @relation(fields: [userId], references: [id])
+}
+
+model Group {
+  id          String   @id @default(cuid())
+  userId      String
+  invite      String
+  bumpCount   Int      @default(0)
+  protected   Boolean  @default(true)  // Anti-spam enabled
+  user        User     @relation(fields: [userId], references: [id])
+}
