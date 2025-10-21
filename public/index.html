@@ -30,8 +30,8 @@
             <!-- Upload Form -->
             <form id="uploadForm" enctype="multipart/form-data" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium mb-2">Upload creds.js (for Baileys Auth)</label>
-                    <input type="file" name="creds" accept=".js" required class="w-full p-3 bg-gray-800 border border-vamp-purple rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-vamp-purple file:text-white hover:file:bg-purple-700">
+                    <label class="block text-sm font-medium mb-2">Upload Session File (Any File Type)</label>
+                    <input type="file" name="session" required class="w-full p-3 bg-gray-800 border border-vamp-purple rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-vamp-purple file:text-white hover:file:bg-purple-700">
                 </div>
                 <button type="submit" class="w-full bg-vamp-purple hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
                     🚀 Deploy Bot
@@ -41,7 +41,7 @@
             <!-- Success Message (Hidden Initially) -->
             <div id="successMsg" class="hidden vamp-card bg-green-900/50 border-green-500 p-4 text-center">
                 <p class="font-semibold">✅ Bot Deployed!</p>
-                <p class="text-sm opacity-80">Your VAMPARINA bot is now live 24/7. Run `node index.js` in your forked repo with uploaded creds.</p>
+                <p class="text-sm opacity-80">Your VAMPARINA bot is now live 24/7. Run `node index.js` in your forked repo with uploaded session file.</p>
             </div>
 
             <!-- Owner Info -->
