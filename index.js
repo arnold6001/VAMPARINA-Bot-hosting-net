@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static('public'));
 app.use('/styles.css', express.static(path.join(__dirname, 'public/styles.css')));
 
-// Multer config for file uploads (creds.js only)
+// Multer config for file uploads (any file type)
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const uploadDir = 'uploads';
@@ -20,17 +20,16 @@ const storage = multer.diskStorage({
         cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
-        cb(null, 'creds.js');  // Overwrite or unique if multi-user
+        const ext = path.extname(file.originalname);
+        const baseName = path.basename(file.originalname, ext);
+        cb(null, `${baseName}-${Date.now()}${ext}`); // Unique filename with timestamp
     }
 });
 const upload = multer({
     storage,
     fileFilter: (req, file, cb) => {
-        if (file.originalname === 'creds.js') {
-            cb(null, true);
-        } else {
-            cb(new Error('Only creds.js allowed'), false);
-        }
+        // Allow any file type
+        cb(null, true);
     }
 });
 
@@ -39,14 +38,13 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-app.post('/upload', upload.single('creds'), (req, res) => {
+app.post('/upload', upload.single('session'), (req, res) => {
     if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded or invalid file' });
+        return res.status(400).json({ error: 'No file uploaded' });
     }
-    // Here, in a full setup: Save creds to session folder, trigger bot deploy (e.g., exec 'node ../VAMPARINA-V1/index.js')
-    // For demo: Just confirm
-    console.log('creds.js uploaded:', req.file.path);
-    res.json({ message: 'Upload successful! Bot ready to deploy.' });
+    // In a full setup: Save session file to user-specific folder, trigger bot deploy
+    console.log('Session file uploaded:', req.file.path);
+    res.json({ message: `Upload successful! Bot ready to deploy with ${req.file.filename}.` });
 });
 
 // Health check for 24/7
