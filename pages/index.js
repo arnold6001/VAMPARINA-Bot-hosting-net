@@ -5,15 +5,22 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const response = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
-    const result = await response.json();
-    setStatus(result.message);
-    // Here, integrate with deployment service (e.g., Vercel API or Render webhook)
-    // For now, simulate success
+    setStatus('Uploading and deploying...');
+    try {
+      const formData = new FormData(e.target);
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error(`Upload failed: ${response.status} ${response.statusText}`);
+      }
+      const result = await response.json();
+      setStatus(result.message || 'Bot deployed successfully! Your instance is live 24/7.');
+    } catch (error) {
+      console.error('Deployment error:', error);
+      setStatus(`Error: ${error.message}`);
+    }
   };
 
   return (
@@ -33,10 +40,10 @@ export default function Home() {
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-4">Step 1: Get Your Session ID</h2>
           <p className="mb-4">To authenticate your bot, you need a session credentials file. Click below to generate it:</p>
-          <button>
+          <button 
             onClick={() => window.open('http://arnoldchirchir.onrender.com', '_blank')} 
             className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
-          
+          >
             Get Session ID
           </button>
           <p className="mt-2 text-sm text-gray-300">Scan QR with WhatsApp > Linked Devices, download creds.json.</p>
@@ -46,7 +53,7 @@ export default function Home() {
         <section>
           <h2 className="text-2xl font-bold mb-4">Step 2: Upload & Deploy</h2>
           <p className="mb-4">Upload your creds.js (or .json) file. Your bot deploys instantly!</p>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4">
             <div>
               <label htmlFor="credsFile" className="block text-sm font-medium text-gray-300">Select creds file:</label>
               <input 
@@ -65,7 +72,11 @@ export default function Home() {
               Deploy Bot
             </button>
           </form>
-          {status && <div id="status" className="mt-4 p-4 bg-green-800 rounded-lg">{status}</div>}
+          {status && (
+            <div className={`mt-4 p-4 rounded-lg ${status.includes('Error') ? 'bg-red-800 text-red-200' : 'bg-green-800 text-green-200'}`}>
+              {status}
+            </div>
+          )}
         </section>
 
         {/* Features */}
