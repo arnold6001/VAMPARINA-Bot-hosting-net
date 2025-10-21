@@ -33,10 +33,10 @@ export default function Home() {
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-4">Step 1: Get Your Session ID</h2>
           <p className="mb-4">To authenticate your bot, you need a session credentials file. Click below to generate it:</p>
-          <button 
+          <button>
             onClick={() => window.open('http://arnoldchirchir.onrender.com', '_blank')} 
             className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
-          >
+          
             Get Session ID
           </button>
           <p className="mt-2 text-sm text-gray-300">Scan QR with WhatsApp > Linked Devices, download creds.json.</p>
